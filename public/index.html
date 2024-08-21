@@ -1,17 +1,58 @@
 <!DOCTYPE html>
-<html lang="">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+<html lang="en">
+<head>
+
+  
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Template</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" type="text/css" href="../src/assets/css/bootstrap.min.css">
+
+  <!-- External Css -->
+  <link rel="stylesheet" type="text/css" href="../src/assets/css/line-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../src/assets/css/owl.carousel.min.css" />
+
+  <!-- Custom Css --> 
+  <link rel="stylesheet" type="text/css" href="../src/assets/css/main.css">
+  <link rel="stylesheet" type="text/css" href="../src/assets/css/job-1.css">
+
+  <script src="https://unpkg.com/vue@next" defer></script>
+
+  <!-- Fonts -->
+   
+
+</head>
+
+<body>
+
+  <div id="app">
+    <job-application-form></job-application-form>
+  </div>
+
+  <!-- Load Vue.js -->
+
+  <!-- Your custom Vue code -->
+  <script>
+    // Definindo um componente Vue básico para teste
+    const JobApplicationForm = {
+      template: `<div><h1>Formulário de Candidatura</h1></div>`
+    };
+
+    // Criar a aplicação Vue
+    const app = Vue.createApp({
+      components: {
+        'job-application-form': JobApplicationForm
+      }
+    });
+
+    // Montar a aplicação
+    app.mount('#app');
+  </script>
+
+  <!-- built files will be auto injected -->
+</body>
 </html>
