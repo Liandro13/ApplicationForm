@@ -21,46 +21,48 @@
                 <span class="step-text"><span class="current-step">{{ currentStep }}</span> de <span class="total-step">3</span> concluído</span>
               </div>
             </div>
-    <StepOne
-      v-if="currentStep === 1"
-      :currentStep="currentStep"
-      :name="name"
-      :email="email"
-      @update:name="name = $event"
-      @update:email="email = $event"
-      @next="nextStep"
-    />
-    <StepTwo
-      v-if="currentStep === 2"
-      :currentStep="currentStep"
-      :phone="phone"
-      :area="area"
-      @update:phone="phone = $event"
-      @update:area="area = $event"
-      @prev="prevStep"
-      @next="nextStep"
-    />
-    <StepThree
-      v-if="currentStep === 3"
-      :currentStep="currentStep"
-      :message="message"
-      :termsAccepted="termsAccepted"
-      @update:message="message = $event"
-      @update:termsAccepted="termsAccepted = $event"
-      @prev="prevStep"
-      @submit="submitForm"
-    />
+            <StepOne
+              v-if="currentStep === 1"
+              :currentStep="currentStep"
+              :name="name"
+              :email="email"
+              @update:name="name = $event"
+              @update:email="email = $event"
+              @next="nextStep"
+            />
+            <StepTwo
+              v-if="currentStep === 2"
+              :currentStep="currentStep"
+              :phone="phone"
+              :area="area"
+              @update:phone="phone = $event"
+              @update:area="area = $event"
+              @prev="prevStep"
+              @next="nextStep"
+            />
+            <StepThree
+              v-if="currentStep === 3"
+              :currentStep="currentStep"
+              :message="message"
+              :termsAccepted="termsAccepted"
+              @update:message="message = $event"
+              @update:termsAccepted="termsAccepted = $event"
+              @prev="prevStep"
+              @submit="submitForm"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-</div>
-</div>
-</div>
 </template>
 
 <script>
 import StepOne from './StepOne.vue';
 import StepTwo from './StepTwo.vue';
 import StepThree from './StepThree.vue';
+import axios from '../axios'; // Atualiza o caminho conforme necessário
+
 
 export default {
   components: {
@@ -79,6 +81,11 @@ export default {
       termsAccepted: false,
     };
   },
+  computed: {
+    progressWidth() {
+      return (this.currentStep / 3) * 100;
+    },
+  },
   methods: {
     nextStep() {
       this.currentStep++;
@@ -86,10 +93,27 @@ export default {
     prevStep() {
       this.currentStep--;
     },
-    submitForm() {
-      alert('Formulário submetido com sucesso!');
-      this.resetForm();
-    },
+   // Remove the 'response' variable
+// Use the 'response' variable to log the response or handle it in some way
+// src/components/JobApplicationForm.vue
+async submitForm() {
+  try {
+    const response = await axios.post('/candidaturas', {
+      nome: this.name,      // Corrige para "nome"
+      email: this.email,
+      telefone: this.phone, // Corrige para "telefone"
+      area: this.area,
+      mensagem: this.message, // Corrige para "mensagem"
+    });
+    console.log('Formulário submetido com sucesso!', response.data);
+    this.resetForm(); // Reseta o formulário após a submissão
+  } catch (error) {
+    console.error('Erro ao submeter o formulário:', error);
+  }
+}
+
+
+,
     resetForm() {
       this.currentStep = 1;
       this.name = '';
@@ -102,6 +126,3 @@ export default {
   },
 };
 </script>
-
-
-
