@@ -61,7 +61,6 @@
 import StepOne from './StepOne.vue';
 import StepTwo from './StepTwo.vue';
 import StepThree from './StepThree.vue';
-import axios from '../axios'; // Atualiza o caminho conforme necessário
 
 
 export default {
@@ -87,42 +86,54 @@ export default {
     },
   },
   methods: {
-    nextStep() {
-      this.currentStep++;
-    },
-    prevStep() {
-      this.currentStep--;
-    },
-   // Remove the 'response' variable
-// Use the 'response' variable to log the response or handle it in some way
-// src/components/JobApplicationForm.vue
-async submitForm() {
+  nextStep() {
+    this.currentStep++;
+  },
+  prevStep() {
+    this.currentStep--;
+  },
+  async submitForm() {
   try {
-    const response = await axios.post('/candidaturas', {
-      nome: this.name,      // Corrige para "nome"
-      email: this.email,
-      telefone: this.phone, // Corrige para "telefone"
-      area: this.area,
-      mensagem: this.message, // Corrige para "mensagem"
+    const response = await fetch('http://127.0.0.1:8000/api/candidaturas', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        nome: this.name,
+        email: this.email,
+        telefone: this.phone,
+        area: this.area,
+        mensagem: this.message,
+      }),
     });
-    console.log('Formulário submetido com sucesso!', response.data);
-    this.resetForm(); // Reseta o formulário após a submissão
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `Erro HTTP! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('Formulário submetido com sucesso!', data);
+    alert('Candidatura enviada com sucesso!');
+    this.resetForm();
   } catch (error) {
     console.error('Erro ao submeter o formulário:', error);
+    alert('Erro ao enviar candidatura. Por favor, tente novamente.');
   }
-}
+},
 
-
-,
-    resetForm() {
-      this.currentStep = 1;
-      this.name = '';
-      this.email = '';
-      this.phone = '';
-      this.area = '';
-      this.message = '';
-      this.termsAccepted = false;
-    },
+  resetForm() {
+    this.currentStep = 1;
+    this.name = '';
+    this.email = '';
+    this.phone = '';
+    this.area = '';
+    this.message = '';
+    this.termsAccepted = false;
   },
+},
+
 };
 </script>

@@ -19,7 +19,8 @@ class CandidaturaController extends Controller
 
         $candidaturas = $query->paginate(10);
 
-        return view('candidaturas.index', compact('candidaturas'));
+        // Retorne os dados em JSON para o frontend consumir
+        return response()->json($candidaturas);
     }
 
     public function create()
@@ -33,19 +34,19 @@ class CandidaturaController extends Controller
             'nome' => 'required',
             'email' => 'required|email|unique:candidaturas',
             'telefone' => 'required',
+            'area' => 'required',
             'mensagem' => 'nullable',
         ]);
     
-        Candidatura::create($request->all());
+        $candidatura = Candidatura::create($request->all());
     
-        return response()->json(['message' => 'Candidatura criada com sucesso!'], 201);
+        return response()->json(['message' => 'Candidatura criada com sucesso!', 'data' => $candidatura], 201);
     }
-    
     
 
     public function show(Candidatura $candidatura)
     {
-        return view('candidaturas.show', compact('candidatura'));
+        return response()->json($candidatura);
     }
 
     public function edit(Candidatura $candidatura)
@@ -54,24 +55,24 @@ class CandidaturaController extends Controller
     }
 
     public function update(Request $request, Candidatura $candidatura)
-{
-    $validatedData = $request->validate([
-        'nome' => 'required',
-        'email' => 'required|email|unique:candidaturas,email,' . $candidatura->id,
-        'telefone' => 'required',
-        'mensagem' => 'required',
-    ]);
+    {
+        $validatedData = $request->validate([
+            'nome' => 'required',
+            'email' => 'required|email|unique:candidaturas,email,' . $candidatura->id,
+            'telefone' => 'required',
+            'mensagem' => 'required',
+        ]);
 
-    $candidatura->update($validatedData);
+        $candidatura->update($validatedData);
 
-    return redirect()->route('candidaturas.index')->with('success', 'Candidatura atualizada com sucesso.');
-}
+        return response()->json(['message' => 'Candidatura atualizada com sucesso!', 'data' => $candidatura]);
+    }
 
     public function destroy(Candidatura $candidatura)
     {
         $candidatura->delete();
 
-        return redirect()->route('candidaturas.index')->with('success', 'Candidatura eliminada com sucesso.');
+        return response()->json(['message' => 'Candidatura eliminada com sucesso!']);
     }
 }
 
