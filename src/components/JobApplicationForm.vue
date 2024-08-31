@@ -29,6 +29,7 @@
               @update:name="name = $event"
               @update:email="email = $event"
               @next="nextStep"
+              @error="showErrorModal"
             />
             <StepTwo
               v-if="currentStep === 2"
@@ -39,6 +40,7 @@
               @update:area="area = $event"
               @prev="prevStep"
               @next="nextStep"
+              @error="showErrorModal"
             />
             <StepThree
               v-if="currentStep === 3"
@@ -49,6 +51,14 @@
               @update:termsAccepted="termsAccepted = $event"
               @prev="prevStep"
               @submit="submitForm"
+              @error="showErrorModal"
+            />
+            <!-- Modal for errors -->
+            <BaseModal
+              v-if="modalVisible"
+              :message="modalMessage"
+              :visible="modalVisible"
+              @close="modalVisible = false"
             />
           </div>
         </div>
@@ -61,13 +71,14 @@
 import StepOne from './StepOne.vue';
 import StepTwo from './StepTwo.vue';
 import StepThree from './StepThree.vue';
-
+import BaseModal from './BaseModal.vue'; // Import the modal component
 
 export default {
   components: {
     StepOne,
     StepTwo,
     StepThree,
+    BaseModal, // Register the modal component
   },
   data() {
     return {
@@ -78,6 +89,8 @@ export default {
       area: '',
       message: '',
       termsAccepted: false,
+      modalVisible: false,
+      modalMessage: '',
     };
   },
   computed: {
@@ -86,54 +99,58 @@ export default {
     },
   },
   methods: {
-  nextStep() {
-    this.currentStep++;
+    nextStep() {
+      this.currentStep++;
+    },
+    prevStep() {
+      this.currentStep--;
+    },
+    async submitForm() {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/candidaturas', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({
+            nome: this.name,
+            email: this.email,
+            telefone: this.phone,
+            area: this.area,
+            mensagem: this.message,
+          }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || `Erro HTTP! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Formulário submetido com sucesso!', data);
+        this.showErrorModal('Candidatura enviada com sucesso!');
+        this.resetForm();
+      } catch (error) {
+        console.error('Erro ao submeter o formulário:', error);
+        this.showErrorModal('Erro ao enviar candidatura. Por favor, tente novamente.');
+      }
+    },
+
+    showErrorModal(message) {
+      this.modalMessage = message;
+      this.modalVisible = true;
+    },
+
+    resetForm() {
+      this.currentStep = 1;
+      this.name = '';
+      this.email = '';
+      this.phone = '';
+      this.area = '';
+      this.message = '';
+      this.termsAccepted = false;
+    },
   },
-  prevStep() {
-    this.currentStep--;
-  },
-  async submitForm() {
-  try {
-    const response = await fetch('http://127.0.0.1:8000/api/candidaturas', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-        nome: this.name,
-        email: this.email,
-        telefone: this.phone,
-        area: this.area,
-        mensagem: this.message,
-      }),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || `Erro HTTP! Status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log('Formulário submetido com sucesso!', data);
-    alert('Candidatura enviada com sucesso!');
-    this.resetForm();
-  } catch (error) {
-    console.error('Erro ao submeter o formulário:', error);
-    alert('Erro ao enviar candidatura. Por favor, tente novamente.');
-  }
-},
-
-  resetForm() {
-    this.currentStep = 1;
-    this.name = '';
-    this.email = '';
-    this.phone = '';
-    this.area = '';
-    this.message = '';
-    this.termsAccepted = false;
-  },
-},
-
 };
 </script>

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Candidatura;
 use Illuminate\Http\Request;
+
 
 class CandidaturaController extends Controller
 {
@@ -72,4 +74,5 @@ class CandidaturaController extends Controller
 
         return redirect()->route('candidaturas.index')->with('success', 'Candidatura eliminada com sucesso!');
     }
+
 }

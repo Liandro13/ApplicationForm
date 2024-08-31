@@ -16,13 +16,14 @@
         <div class="custom-checkbox">
           <input
             type="checkbox"
-            :checked="termsAccepted"
-            @change="$emit('update:termsAccepted', $event.target.checked)"
+            :checked="localTermsAccepted"
+            @change="handleTermsChange"
             class="custom-control-input"
             id="terms"
             required
           />
           <label class="custom-control-label" for="terms">Li e aceito os <a href="#">Termos e Condições</a></label>
+          <div v-if="termsError" class="error-message">{{ termsError }}</div>
         </div>
       </div>
       <button type="submit" class="btn" id="submitForm">Submeter</button>
@@ -33,11 +34,30 @@
 <script>
 export default {
   props: ['currentStep', 'message', 'termsAccepted'],
+  data() {
+    return {
+      localTermsAccepted: this.termsAccepted,
+      termsError: '', // For storing the error message related to terms acceptance
+    };
+  },
   methods: {
     prevStep() {
       this.$emit('prev', 3);
     },
+    handleTermsChange(event) {
+      this.localTermsAccepted = event.target.checked;
+      this.$emit('update:termsAccepted', this.localTermsAccepted);
+    },
     handleSubmit() {
+      // Validate that the terms and conditions are accepted
+      if (!this.localTermsAccepted) {
+        this.termsError = 'Você deve aceitar os Termos e Condições antes de submeter o formulário.';
+        return;
+      } else {
+        this.termsError = '';
+      }
+
+      // If validation passes, emit the submit event to the parent component
       this.$emit('submit');
     },
   },

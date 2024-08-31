@@ -10,3 +10,4 @@ Route::get('/candidaturas/{candidatura}', [CandidaturaController::class, 'show']
 Route::get('/candidaturas/{candidatura}/edit', [CandidaturaController::class, 'edit'])->name('candidaturas.edit');
 Route::put('/candidaturas/{candidatura}', [CandidaturaController::class, 'update'])->name('candidaturas.update');
 Route::delete('/candidaturas/{candidatura}', [CandidaturaController::class, 'destroy'])->name('candidaturas.destroy');
+

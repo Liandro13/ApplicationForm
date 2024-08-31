@@ -51,4 +51,17 @@ class CandidaturaApiController extends Controller
         $candidatura->delete();
         return response()->json(['message' => 'Candidatura eliminada com sucesso!']);
     }
+
+    public function checkEmail(Request $request)
+    {
+        $email = $request->query('email');
+
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return response()->json(['error' => 'Invalid email provided'], 400);
+        }
+
+        $exists = Candidatura::where('email', $email)->exists();
+
+        return response()->json(['exists' => $exists]);
+    }
 }
