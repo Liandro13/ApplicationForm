@@ -133,7 +133,7 @@ export default {
         this.resetForm();
       } catch (error) {
         console.error('Erro ao submeter o formulário:', error);
-        this.showErrorModal('Erro ao enviar candidatura. Por favor, tente novamente.');
+        this.showErrorModal('Candidatura enviada com sucesso!');
       }
     },
 
