@@ -36,3 +36,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
 });
 
+use App\Http\Controllers\CandidaturaController;
+Route::apiResource('candidaturas', CandidaturaController::class);
+
