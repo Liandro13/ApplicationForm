@@ -1,67 +1,67 @@
-<h1 align="center">📝 Application Form</h1>
+<h1 align="center">📝 Job Application Form</h1>
 <p align="center">
-  Formulário de candidatura a emprego multi-etapas
+  Multi-step job application form with real-time validation
 </p>
 <p align="center">
   <img src="https://img.shields.io/badge/Vue.js-4FC08D?style=for-the-badge&logo=vuedotjs&logoColor=white"/>
   <img src="https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white"/>
   <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white"/>
   <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white"/>
-  <img src="https://img.shields.io/badge/estado-Concluído-brightgreen?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/Status-Completed-brightgreen?style=for-the-badge"/>
 </p>
 
 ---
 
-## 📋 Sobre o Projeto
+## 📋 About
 
-O **Application Form** é uma aplicação full-stack que implementa um formulário de candidatura a emprego em 3 etapas, com barra de progresso e feedback visual. O frontend em Vue 3 comunica com uma API Laravel para submeter as candidaturas.
+**Job Application Form** is a full-stack application implementing a guided 3-step job application form with a progress bar and visual feedback. The Vue 3 frontend communicates with a Laravel REST API to submit applications.
 
-## ✨ Funcionalidades
+## ✨ Features
 
-- **Formulário Multi-Etapas** — experiência guiada em 3 passos
-- **Barra de Progresso** — indicador visual ("X de 3 concluído")
-- **Validação de Campos** — verificação em tempo real
-- **Modal de Feedback** — resposta visual ao utilizador após submissão
-- **API REST** — backend Laravel para persistência
+- **Multi-step Form** — guided 3-step experience
+- **Progress Bar** — visual indicator ("Step X of 3 completed")
+- **Field Validation** — real-time input checking
+- **Feedback Modal** — visual response after submission
+- **REST API** — Laravel backend for data persistence
 
-## 📋 Etapas do Formulário
+## 📋 Form Steps
 
-| Etapa | Campos |
+| Step | Fields |
 |---|---|
-| 1️⃣ Dados Pessoais | Nome completo + Email |
-| 2️⃣ Contacto | Telefone + Área de interesse |
-| 3️⃣ Candidatura | Mensagem de motivação + Aceitação de termos |
+| 1️⃣ Personal Info | Full name + Email |
+| 2️⃣ Contact | Phone number + Area of interest |
+| 3️⃣ Application | Motivation message + Terms acceptance |
 
-## 🛠️ Tecnologias
+## 🛠️ Tech Stack
 
 **Frontend**
-- Vue 3 — framework reativo
-- Axios — cliente HTTP
-- jQuery Validation — validação de formulários
+- Vue 3 — reactive framework
+- Axios — HTTP client
+- jQuery Validation — form validation
 
 **Backend**
-- Laravel (PHP) — API REST
-- MySQL — base de dados
+- Laravel (PHP) — REST API
+- MySQL — database
 
-## 📂 Estrutura do Projeto
+## 📂 Project Structure
 
 ```
 ApplicationForm/
 ├── src/
-│   ├── App.vue                   # Componente raiz
-│   ├── main.js                   # Ponto de entrada Vue
-│   ├── axios.js                  # Configuração HTTP
-│   ├── global.css                # Estilos globais
+│   ├── App.vue
+│   ├── main.js
+│   ├── axios.js
+│   ├── global.css
 │   └── components/
-│       ├── JobApplicationForm.vue # Orquestrador do formulário
-│       ├── StepOne.vue           # Etapa 1: nome + email
-│       ├── StepTwo.vue           # Etapa 2: telefone + área
-│       ├── StepThree.vue         # Etapa 3: mensagem + termos
-│       └── BaseModal.vue         # Modal reutilizável
-└── Back/                         # Laravel API
+│       ├── JobApplicationForm.vue   # Form orchestrator
+│       ├── StepOne.vue              # Name + email
+│       ├── StepTwo.vue              # Phone + area
+│       ├── StepThree.vue            # Message + terms
+│       └── BaseModal.vue            # Reusable modal
+└── Back/                            # Laravel API
 ```
 
-## 🚀 Como Executar
+## 🚀 Getting Started
 
 **Backend (Laravel)**
 
@@ -81,9 +81,9 @@ npm install
 npm run serve
 ```
 
-Acede a `http://localhost:8080` no browser.
+Open `http://localhost:8080` in your browser.
 
-## 🔗 Endpoint da API
+## 🔗 API Endpoint
 
 ```
 POST http://127.0.0.1:8000/api/candidaturas
@@ -91,10 +91,10 @@ POST http://127.0.0.1:8000/api/candidaturas
 
 ```json
 {
-  "nome": "João Silva",
-  "email": "joao@example.com",
+  "nome": "John Doe",
+  "email": "john@example.com",
   "telefone": "912345678",
-  "area": "Desenvolvimento Web",
-  "mensagem": "Tenho interesse em..."
+  "area": "Web Development",
+  "mensagem": "I am interested in..."
 }
 ```
